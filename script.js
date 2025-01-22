@@ -9,14 +9,22 @@ document.getElementById('downloadButton').addEventListener('click', function () 
 
     statusElement.textContent = 'Processando...';
 
-    // Chame uma API de terceiros ou implemente o processo de conversão aqui.
-    // Como exemplo, vamos simular um link de download (não funcional no GitHub Pages real).
-    setTimeout(function () {
-        statusElement.textContent = 'Música pronta para download!';
-        let downloadLink = document.createElement('a');
-        downloadLink.href = 'https://www.exemplo.com/musica.mp3'; // Link de exemplo
-        downloadLink.download = 'musica.mp3';
-        downloadLink.textContent = 'Clique aqui para baixar';
-        statusElement.appendChild(downloadLink);
-    }, 3000); // Simulando um tempo de processamento
+    // Fazendo a chamada para uma API de conversão
+    fetch(`https://api.y2mate.com/download?url=${encodeURIComponent(youtubeUrl)}&format=mp3`)
+        .then(response => response.json())
+        .then(data => {
+            if (data && data.downloadUrl) {
+                statusElement.textContent = 'Música pronta para download!';
+                let downloadLink = document.createElement('a');
+                downloadLink.href = data.downloadUrl;  // Supondo que a resposta tenha a URL de download
+                downloadLink.download = 'musica.mp3';
+                downloadLink.textContent = 'Clique aqui para baixar';
+                statusElement.appendChild(downloadLink);
+            } else {
+                statusElement.textContent = 'Erro: Não foi possível obter a música.';
+            }
+        })
+        .catch(error => {
+            statusElement.textContent = 'Erro: ' + error.message;
+        });
 });
