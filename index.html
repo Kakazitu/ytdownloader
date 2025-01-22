@@ -33,8 +33,8 @@
 </head>
 <body>
   <h1>YouTube Music Downloader</h1>
-  <p>Coloque o link do YouTube abaixo:</p>
-  <input type="text" id="youtubeLink" placeholder="Insira o link do vídeo">
+  <p>Insira o link do YouTube abaixo:</p>
+  <input type="text" id="youtubeLink" placeholder="Cole o link do YouTube aqui">
   <br>
   <button id="downloadButton">DOWNLOAD</button>
   <p class="message" id="message"></p>
@@ -49,11 +49,9 @@
         return;
       }
 
-      // Simula uma solicitação para download
-      messageElement.textContent = 'Iniciando download...';
-      setTimeout(() => {
-        messageElement.textContent = 'Para fins educativos, o download seria iniciado agora.';
-      }, 2000);
+      // Redirecionar para uma API de download
+      window.open(`https://api.yourbackend.com/download?url=${encodeURIComponent(link)}`);
+      messageElement.textContent = 'Iniciando o download...';
     });
   </script>
 </body>
