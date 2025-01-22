@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Music Downloader</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    input {
+      padding: 10px;
+      width: 300px;
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+    .message {
+      margin-top: 20px;
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>YouTube Music Downloader</h1>
+  <p>Coloque o link do YouTube abaixo:</p>
+  <input type="text" id="youtubeLink" placeholder="Insira o link do vídeo">
+  <br>
+  <button id="downloadButton">DOWNLOAD</button>
+  <p class="message" id="message"></p>
+
+  <script>
+    document.getElementById('downloadButton').addEventListener('click', function() {
+      const link = document.getElementById('youtubeLink').value;
+      const messageElement = document.getElementById('message');
+      
+      if (!link) {
+        messageElement.textContent = 'Por favor, insira um link válido.';
+        return;
+      }
+
+      // Simula uma solicitação para download
+      messageElement.textContent = 'Iniciando download...';
+      setTimeout(() => {
+        messageElement.textContent = 'Para fins educativos, o download seria iniciado agora.';
+      }, 2000);
+    });
+  </script>
+</body>
+</html>
