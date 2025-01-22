@@ -1,58 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YouTube Music Downloader</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin-top: 50px;
-    }
-    input {
-      padding: 10px;
-      width: 300px;
-      margin-bottom: 20px;
-    }
-    button {
-      padding: 10px 20px;
-      background-color: #28a745;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #218838;
-    }
-    .message {
-      margin-top: 20px;
-      color: red;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube to MP3</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>YouTube Music Downloader</h1>
-  <p>Insira o link do YouTube abaixo:</p>
-  <input type="text" id="youtubeLink" placeholder="Cole o link do YouTube aqui">
-  <br>
-  <button id="downloadButton">DOWNLOAD</button>
-  <p class="message" id="message"></p>
-
-  <script>
-    document.getElementById('downloadButton').addEventListener('click', function() {
-      const link = document.getElementById('youtubeLink').value;
-      const messageElement = document.getElementById('message');
-      
-      if (!link) {
-        messageElement.textContent = 'Por favor, insira um link válido.';
-        return;
-      }
-
-      // Redirecionar para uma API de download
-      window.open(`https://api.yourbackend.com/download?url=${encodeURIComponent(link)}`);
-      messageElement.textContent = 'Iniciando o download...';
-    });
-  </script>
+    <div class="container">
+        <h1>Baixar Música do YouTube como MP3</h1>
+        <input type="text" id="youtubeUrl" placeholder="Cole o URL do YouTube">
+        <button id="downloadButton">Baixar MP3</button>
+        <div id="status"></div>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
