@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baixar Música do YouTube</title>
+    <title>Baixar MP3 do YouTube</title>
 </head>
 <body>
     <h1>Baixar MP3 do YouTube</h1>
@@ -12,7 +12,22 @@
     <p id="status"></p>
 
     <script>
-        function baixarMp3() {
+        const apis = [
+            { 
+                name: "YTD Download", 
+                url: "https://api.ytdownload.dev/api/convert?url=" 
+            },
+            { 
+                name: "Loader.to", 
+                url: "https://loader.to/api/v1/mp3?url=" 
+            },
+            { 
+                name: "SaveFrom", 
+                url: "https://api.savefrom.net/convert?url=" 
+            }
+        ];
+
+        async function baixarMp3() {
             const youtubeUrl = document.getElementById("youtubeUrl").value;
             const statusElement = document.getElementById("status");
 
@@ -22,27 +37,33 @@
             }
 
             statusElement.innerText = "Processando...";
+            for (const api of apis) {
+                try {
+                    statusElement.innerText = `Tentando: ${api.name}...`;
+                    const response = await fetch(api.url + encodeURIComponent(youtubeUrl));
+                    
+                    if (!response.ok) throw new Error(`Erro na ${api.name}: ${response.statusText}`);
+                    
+                    const data = await response.json();
 
-            // Usando uma API pública para conversão
-            const apiUrl = `https://api.y2mate.com/convert?url=${encodeURIComponent(youtubeUrl)}&format=mp3`;
-
-            fetch(apiUrl)
-                .then(response => response.json())
-                .then(data => {
                     if (data && data.downloadUrl) {
+                        statusElement.innerText = "Música pronta para download!";
                         const link = document.createElement("a");
                         link.href = data.downloadUrl;
                         link.download = "musica.mp3";
                         link.textContent = "Clique aqui para baixar o MP3";
-                        statusElement.innerText = "";
                         statusElement.appendChild(link);
+                        return; // Sai do loop quando funcionar
                     } else {
-                        statusElement.innerText = "Erro ao converter o vídeo.";
+                        throw new Error(`Erro na ${api.name}: Resposta inválida.`);
                     }
-                })
-                .catch(err => {
-                    statusElement.innerText = "Erro ao acessar o serviço: " + err.message;
-                });
+                } catch (error) {
+                    console.error(`Erro ao usar ${api.name}:`, error.message);
+                    statusElement.innerText = `Erro ao usar ${api.name}, tentando outra API...`;
+                }
+            }
+
+            statusElement.innerText = "Todas as APIs falharam. Tente novamente mais tarde.";
         }
     </script>
 </body>
