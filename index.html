@@ -3,16 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube to MP3</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Baixar Música do YouTube</title>
 </head>
 <body>
-    <div class="container">
-        <h1>Baixar Música do YouTube como MP3</h1>
-        <input type="text" id="youtubeUrl" placeholder="Cole o URL do YouTube">
-        <button id="downloadButton">Baixar MP3</button>
-        <div id="status"></div>
-    </div>
-    <script src="script.js"></script>
+    <h1>Baixar MP3 do YouTube</h1>
+    <input type="text" id="youtubeUrl" placeholder="Cole o link do YouTube">
+    <button onclick="baixarMp3()">Baixar MP3</button>
+    <p id="status"></p>
+
+    <script>
+        function baixarMp3() {
+            const youtubeUrl = document.getElementById("youtubeUrl").value;
+            const statusElement = document.getElementById("status");
+
+            if (!youtubeUrl) {
+                statusElement.innerText = "Por favor, insira um link do YouTube.";
+                return;
+            }
+
+            statusElement.innerText = "Processando...";
+
+            // Usando uma API pública para conversão
+            const apiUrl = `https://api.y2mate.com/convert?url=${encodeURIComponent(youtubeUrl)}&format=mp3`;
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.downloadUrl) {
+                        const link = document.createElement("a");
+                        link.href = data.downloadUrl;
+                        link.download = "musica.mp3";
+                        link.textContent = "Clique aqui para baixar o MP3";
+                        statusElement.innerText = "";
+                        statusElement.appendChild(link);
+                    } else {
+                        statusElement.innerText = "Erro ao converter o vídeo.";
+                    }
+                })
+                .catch(err => {
+                    statusElement.innerText = "Erro ao acessar o serviço: " + err.message;
+                });
+        }
+    </script>
 </body>
 </html>
